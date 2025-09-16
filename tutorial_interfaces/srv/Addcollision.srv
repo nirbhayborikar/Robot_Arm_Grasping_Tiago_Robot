@@ -1,0 +1,10 @@
+# ros2_ws/src/nb-246830/stage_6/collision_service/srv/add_collision_object.srv
+
+
+#marker id should be set after receiving tf pose set automatically to 1
+# Request
+int32 marker_id
+
+---
+# Response
+bool success

@@ -1,0 +1,46 @@
+services:
+
+  tiago_workspace_container_1:
+    extends:
+      file: .compose_templates.yml
+      service: .tiago_workspace
+    image: my_tiago_workspace
+    build:
+      dockerfile: docker/Dockerfile_workspace
+    command:
+      - bash
+      - -c
+      - |
+        source /opt/ros/humble/setup.bash
+        cd /root/ros2_ws/
+        colcon build
+        source install/setup.bash
+        sleep 4
+        ros2 run clean_the_table clean_the_table &&
+            
+        tail -f /dev/null
+        
+  tiago_workspace_conainer_2:
+    extends:
+      file: .compose_templates.yml
+      service: .tiago_workspace
+    image: my_tiago_workspace
+    build:
+      dockerfile: docker/Dockerfile_workspace
+    command: 
+      - bash
+      - -c
+      - |
+
+        source /opt/ros/humble/setup.bash
+        cd /root/ros2_ws/
+        colcon build
+        source install/setup.bash
+
+        sleep 1
+        ros2 run gazebo_ros spawn_entity.py -entity door -database counter -x -1.50 -y -4.36 -z 0 -Y 0 &&
+        sleep 1
+        ros2 action send_goal /head_controller/increment teleop_tools_msgs/action/Increment "{increment_by:[0.0,-0.8,0.1]}" &&
+        sleep 5
+        ros2 run intial_to_goal initial_to_goal &&
+        sleep 180

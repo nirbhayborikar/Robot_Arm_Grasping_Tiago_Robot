@@ -1,0 +1,11 @@
+services:
+
+  tiago_workspace_conainer:
+    extends:
+      file: .compose_templates.yml
+      service: .tiago_workspace
+    image: my_tiago_workspace
+    build:
+      dockerfile: docker/Dockerfile_workspace
+    command: tail -f /dev/null
+

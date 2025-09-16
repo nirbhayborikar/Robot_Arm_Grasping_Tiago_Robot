@@ -1,0 +1,8 @@
+# so the link is base image for the Tiago workspace container after form
+FROM fbe-dockerreg.rwu.de/prj-iki-ros2/robots/tiago/tiago_base:sim
+
+RUN apt update
+RUN apt install -y git htop bmon vim 
+RUN apt install -y ros-humble-rqt-robot-steering
+    
+CMD ["echo", "Container Starting", "Tiago Workspace Created"]
